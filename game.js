@@ -1,4 +1,8 @@
 //configuring phaser
+var gameSettings = {
+    playerSpeed:200,
+}
+
 var config = {
     width: 256,
     height: 272,
