@@ -74,6 +74,24 @@ class Scene2 extends Phaser.Scene{
         this.physics.add.overlap(this.player, this.enemies, this.hurtPlayer, null, this);
 
         this.physics.add.overlap(this.projectiles, this.enemies, this.hitEnemy, null, this);
+
+
+        //HUD for score label
+        var graphics = this.add.graphics();
+        graphics.fillStyle(0x000000, 1);
+        graphics.beginPath();
+        graphics.moveTo(0,0);
+        graphics.lineTo(config.width,0);
+        graphics.lineTo(config.width,20);
+        graphics.lineTo(0,20);
+        graphics.lineTo(0,0);
+        graphics.closePath();
+        graphics.fillPath();
+
+        //variable for score label
+        //bitmapText(pos,pos,id,text_to_display,font_size)
+        this.score = 0;
+        this.scoreLabel = this.add.bitmapText(10,5,"pixelFont", "SCORE " + this.zeroPad(this.score, 6), 16);
     }
 
     //function to pickup Power Ups
@@ -91,6 +109,9 @@ class Scene2 extends Phaser.Scene{
     hitEnemy(projectile, enemy){
         projectile.destroy();
         this.resetShipPos(enemy);
+        this.score += 15;
+        var scoreFormated = this.zeroPad(this.score, 6);
+        this.scoreLabel.text = "SCORE " + scoreFormated;
     }
 
     update(){
@@ -153,5 +174,13 @@ class Scene2 extends Phaser.Scene{
 
     shootBeam(){
         var beam = new Beam(this);
+    }
+
+    zeroPad(number,size){
+        var stringNumber = String(number);
+        while(stringNumber.length < (size || 2)){
+            stringNumber = "0" + stringNumber;
+        }
+        return stringNumber;
     }
 }
