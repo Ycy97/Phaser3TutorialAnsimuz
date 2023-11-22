@@ -57,6 +57,7 @@ class Scene2 extends Phaser.Scene{
 
         //spacebar to shoot
         this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        this.projectiles = this.add.group();
     }
 
     update(){
@@ -70,6 +71,12 @@ class Scene2 extends Phaser.Scene{
 
         if(Phaser.Input.Keyboard.JustDown(this.spacebar)){
             console.log("Fire!");
+            this.shootBeam();
+        }
+
+        for(var i = 0; i < this.projectiles.getChildren().length; i++){
+            var beam = this.projectiles.getChildren()[i];
+            beam.update();
         }
     }
 
@@ -109,5 +116,9 @@ class Scene2 extends Phaser.Scene{
     destroyShip(pointer, gameObject){
         gameObject.setTexture("explosion");
         gameObject.play("explode");
+    }
+
+    shootBeam(){
+        var beam = new Beam(this);
     }
 }
